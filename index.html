@@ -1,49 +1,69 @@
 ﻿<!DOCTYPE html>
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <script src="//code.jquery.com/jquery-2.0.3.js"></script>
-    <script src="/materialize/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="/materialize/css/materialize.min.css" />
+    <title>Noto Sans CJK Test</title>
+    <style>
+        .tc {
+            font-family: "Noto Sans CJK TC", "Noto Sans CJK TC Regular";
+        }
+
+        .sc {
+            font-family: "Noto Sans CJK SC", "Noto Sans CJK SC Regular";
+        }
+
+        .jp {
+            font-family: "Noto Sans CJK JP", "Noto Sans CJK JP Regular";
+        }
+
+        td {
+            font-size: 24pt;
+        }
+
+        td,th {
+            border: 1px solid black
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo">2016 立法會新東補選</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a>投票率</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    
-    <footer class="page-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Footer Content</h5>
-                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2016 Kelvin Lee. 使用 GitHub Pages 掛載。
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-        </div>
-    </footer>
+    <template id="testText">機會稍縱即逝。有請小鳳姐！九龍塘、北角；說明：</template>
+    <table style="border-collapse:collapse">
+        <tr>
+            <th>Variant</th>
+            <th>lang not specified</th>
+            <th>lang="zh"</th>
+            <th>lang="zh-tw"</th>
+            <th>lang="ja"</th>
+        </tr>
+        <tr class="tc">
+            <th>TC</th>
+            <td></td>
+            <td lang="zh"></td>
+            <td lang="zh-tw"></td>
+            <td lang="ja"></td>
+        </tr>
+        <tr class="sc">
+            <th>SC</th>
+            <td></td>
+            <td lang="zh"></td>
+            <td lang="zh-tw"></td>
+            <td lang="ja"></td>
+        </tr>
+        <tr class="jp">
+            <th>JP</th>
+            <td></td>
+            <td lang="zh"></td>
+            <td lang="zh-tw"></td>
+            <td lang="ja"></td>
+        </tr>
+    </table>
+    <script>
+        var t = document.querySelector('#testText');
+        var x = document.getElementsByTagName("td");
+        for (var i = 0; i < x.length; i++) {
+            x[i].appendChild(document.importNode(testText.content, true));
+        }
+    </script>
 </body>
 </html>
