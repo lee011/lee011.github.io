@@ -24,6 +24,25 @@
                 }
                 $(newFare).text('HK$ ' + round(c,1));
             });
+            $(add).click(function () {
+                increase(parseInt(typei.value));
+            });
+            $(dec).click(function () {
+                decrease(parseInt(typei.value));
+            });
+            $(typei).change(function () {
+                switch (parseInt(typei.value)) {
+                    case 1:
+                        farei.value = 22;
+                        break;
+                    case 2:
+                        farei.value = 18.5;
+                        break;
+                    case 3:
+                        farei.value = 17;
+                        break;
+                }
+            });
         });
         
         function calculate(type, fare) {
@@ -34,28 +53,118 @@
                     if (fare > 78) {
                         longDistanceCount = fare - 78;
                         shortDistanceCount = 35; // (9000 - 2000)m / 200m
-                    } else if (fare > 22) {
+                    } else if (fare >= 22) {
                         shortDistanceCount = (fare * 10 - 220) / 16;
+                    } else {
+                        return NaN;
                     }
-                    if (Math.trunc(shortDistanceCount) != shortDistanceCount) { console.log(shortDistanceCount); return NaN; }
+                    if (Math.trunc(shortDistanceCount) != shortDistanceCount || Math.trunc(longDistanceCount) != longDistanceCount) { console.log(shortDistanceCount); return NaN; }
                     return (24 + 1.7 * shortDistanceCount + 1.2 * longDistanceCount);
                 case 2:
                     if (fare > 60.5) {
                         longDistanceCount = fare - 60.5;
                         shortDistanceCount = 30; // (8000 - 2000)m / 200m
-                    } else if (fare > 18.5) {
+                    } else if (fare >= 18.5) {
                         shortDistanceCount = (fare * 10 - 185) / 14;
+                    } else {
+                        return NaN;
                     }
+                    if (Math.trunc(shortDistanceCount) != shortDistanceCount || Math.trunc(longDistanceCount) != longDistanceCount) { console.log(shortDistanceCount); return NaN; }
                     return (20.5 + 1.5 * shortDistanceCount + 1.2 * longDistanceCount);
                 case 3:
                     if (fare > 143) {
-                        longDistanceCount = (fare - 143) / 1.2;
-                        shortDistanceCount = 30; // (8000 - 2000)m / 200m
-                    } else if (fare > 17) {
+                        longDistanceCount = (fare * 10 - 1430) / 12;
+                        shortDistanceCount = 90; // (20000 - 2000)m / 200m
+                    } else if (fare >= 17) {
                         shortDistanceCount = (fare * 10 - 170) / 14;
+                    } else {
+                        return NaN;
                     }
+                    if (Math.trunc(shortDistanceCount) != shortDistanceCount || Math.trunc(longDistanceCount) != longDistanceCount) { console.log(shortDistanceCount); return NaN; }
                     return (19 + 1.5 * shortDistanceCount + 1.4 * longDistanceCount);
             }
+        }
+        
+        function increase(type) {
+            var ret;
+            var fare = parseInt(farei.value * 10);
+            switch (type) {
+                case 1:
+                    if (fare >= 780) {
+                        fare += 10;
+                    } else if (fare >= 220) {
+                        fare += 16;
+                    } else {
+                        fare = 220;
+                    }
+                    break;
+                case 2:
+                    if (fare >= 605) {
+                        fare += 10;
+                    } else if (fare >= 185) {
+                        fare += 14;
+                    } else {
+                        fare = 185;
+                    }
+                    break;
+                case 3:
+                    if (fare >= 1430) {
+                        fare += 12;
+                    } else if (fare >= 170) {
+                        fare += 14;
+                    } else {
+                        fare = 170;
+                    }
+                    break;
+            }
+            farei.value = fare / 10;
+            var c = calculate(parseInt(typei.value),parseFloat(farei.value));
+            if (isNaN(c)) {
+                $("#modal1").modal('open');
+                return;
+            }
+            $(newFare).text('HK$ ' + round(c,1));
+        }
+        
+        function decrease(type) {
+            var ret;
+            var fare = parseInt(farei.value * 10);
+            switch (type) {
+                case 1:
+                    if (fare > 780) {
+                        fare -= 10;
+                    } else if (fare > 220) {
+                        fare -= 16;
+                    } else {
+                        fare = 220;
+                    }
+                    break;
+                case 2:
+                    if (fare > 605) {
+                        fare -= 10;
+                    } else if (fare > 185) {
+                        fare -= 14;
+                    } else {
+                        fare = 185;
+                    }
+                    break;
+                case 3:
+                    if (fare > 1430) {
+                        fare -= 12;
+                    } else if (fare > 170) {
+                        fare -= 14;
+                    } else {
+                        fare = 170;
+                    }
+                    break;
+            }
+            farei.value = fare / 10;
+            var c = calculate(parseInt(typei.value),parseFloat(farei.value));
+            if (isNaN(c)) {
+                $("#modal1").modal('open');
+                return;
+            }
+            $(newFare).text('HK$ ' + round(c,1));
         }
         
         function round(number, precision) {
@@ -68,7 +177,8 @@
 </head>
 <body style="margin: 8px">
     <h2>的士新舊車資換算器</h2>
-    <p>還在查閱密密麻麻的車資換算表？來試試這個換算器吧。只要選取的士類別，然後輸入舊車資，網頁就會替你換算出新車資。（註：輸入車資不要包含附加費）</p>
+    <p>還在查閱密密麻麻的車資換算表？來試試這個自動化換算器吧。只要選取的士類別，然後輸入舊車資，網頁就會替你換算出新車資。（註：輸入車資不要包含附加費）</p>
+    <p><i>此車資換算器適用於約於 4 月 9 日生效的新的士收費與此前的舊收費進行換算</i></p>
     <div class="row">
         <div class="input-field col s12 m6">
             <select id="typei">
@@ -83,7 +193,9 @@
             <label for="farei">舊車資</label>
         </div>
     </div>
-    <a class="btn waves-effect" id="cal">計算</a><br />
+    <a class="btn waves-effect waves-light" id="add">+</a>
+    <a class="btn waves-effect waves-light" id="dec">-</a>
+    <a class="btn waves-effect waves-light" id="cal">計算</a><br />
     <p>
         對應的新車資為：<br />
         <span style="font-size: 3em" id="newFare">HK$ 0</span>
