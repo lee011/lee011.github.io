@@ -2,12 +2,101 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>新舊車資換算器</title>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <script src="//code.jquery.com/jquery-2.0.3.js"></script>
-    <script src="/materialize/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="/materialize/css/materialize.min.css" />
+    <script src="https://code.jquery.com/jquery-2.0.3.js"></script>
+    <script src="materialize/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="materialize/css/materialize.min.css" />
+    <style>
+        body {
+            font-family: Roboto, "Microsoft JhengHei UI", "Microsoft JhengHei", "微軟正黑體", sans-serif;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('.modal').modal();
+            $('select').material_select();
+            $(cal).click(function () {
+                var c = calculate(parseInt(typei.value),parseFloat(farei.value));
+                if (isNaN(c)) {
+                    $("#modal1").modal('open');
+                    return;
+                }
+                $(newFare).text('HK$ ' + round(c,1));
+            });
+        });
+        
+        function calculate(type, fare) {
+            var longDistanceCount  = 0,
+                shortDistanceCount = 0;
+            switch (type) {
+                case 1:
+                    if (fare > 78) {
+                        longDistanceCount = fare - 78;
+                        shortDistanceCount = 35; // (9000 - 2000)m / 200m
+                    } else if (fare > 22) {
+                        shortDistanceCount = (fare * 10 - 220) / 16;
+                    }
+                    if (Math.trunc(shortDistanceCount) != shortDistanceCount) { console.log(shortDistanceCount); return NaN; }
+                    return (24 + 1.7 * shortDistanceCount + 1.2 * longDistanceCount);
+                case 2:
+                    if (fare > 60.5) {
+                        longDistanceCount = fare - 60.5;
+                        shortDistanceCount = 30; // (8000 - 2000)m / 200m
+                    } else if (fare > 18.5) {
+                        shortDistanceCount = (fare * 10 - 185) / 14;
+                    }
+                    return (20.5 + 1.5 * shortDistanceCount + 1.2 * longDistanceCount);
+                case 3:
+                    if (fare > 143) {
+                        longDistanceCount = (fare - 143) / 1.2;
+                        shortDistanceCount = 30; // (8000 - 2000)m / 200m
+                    } else if (fare > 17) {
+                        shortDistanceCount = (fare * 10 - 170) / 14;
+                    }
+                    return (19 + 1.5 * shortDistanceCount + 1.4 * longDistanceCount);
+            }
+        }
+        
+        function round(number, precision) {
+            var factor = Math.pow(10, precision);
+            var tempNumber = number * factor;
+            var roundedTempNumber = Math.round(tempNumber);
+            return roundedTempNumber / factor;
+        }
+    </script>
 </head>
-<body>
+<body style="margin: 8px">
+    <h2>的士新舊車資換算器</h2>
+    <p>還在查閱密密麻麻的車資換算表？來試試這個換算器吧。只要選取的士類別，然後輸入舊車資，網頁就會替你換算出新車資。（註：輸入車資不要包含附加費）</p>
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <select id="typei">
+                <option value="1">市區的士</option>
+                <option value="2">新界的士</option>
+                <option value="3">大嶼山的士</option>
+            </select>
+            <label>選取的士類別</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <input id="farei" type="number">
+            <label for="farei">舊車資</label>
+        </div>
+    </div>
+    <a class="btn waves-effect" id="cal">計算</a><br />
+    <p>
+        對應的新車資為：<br />
+        <span style="font-size: 3em" id="newFare">HK$ 0</span>
+    </p>
+    <p>免責聲明：此換算器只供參考用途。我們不會就使用此換算器所遭受的任何損失負責。如此換算器的結果與運輸署官方換算表有別，應當以官方換算表上的資料為準。</p>
+    <div id="modal1" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h4>車資錯誤</h4>
+            <p>車資數值輸入錯誤，請檢查輸入後再試一次。</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">確定</a>
+        </div>
+    </div>
 </body>
 </html>
