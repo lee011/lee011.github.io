@@ -23,7 +23,7 @@
         <i class="material-icons" style="font-size: 48px;">new_releases</i>
         <div>
             全新陸運會及水運會啦啦隊片段資料庫已正式啟用！<br />
-            立即<a href="googlechrome://navigate?url=https://lee011.hopto.org/cheering/">按此</a>使用！
+            立即<a id="redirLink" href="https://lee011.hopto.org/cheering/" target="_blank">按此</a>使用！
         </div>
     </div>
     <p><b>請選取要前往的連結：</b></p>
@@ -38,6 +38,7 @@
     <script>
         if (navigator.userAgent.indexOf("Instagram") == -1) {
             document.getElementById("openInBrowser").style.display = "none";
+            document.getElementById("redirLink").href = "googlechrome://navigate?url=https://lee011.hopto.org/cheering/";
         }
     </script>
 </body>
