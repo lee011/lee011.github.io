@@ -15,8 +15,7 @@
     <div id="openInBrowser" style="display: flex; flex-direction: row; align-items: flex-start; border: 1px solid gray; border-radius: 5px; padding: 4px; margin-bottom: 8px;">
         <i class="material-icons" style="font-size: 48px;">open_in_new</i>
         <div>
-            您正在使用 Instagram 內置瀏覽器。按下下方連結時或未能自動跳轉至相應的應用程式。<br />
-            <a href="intent://lee011.github.io/igLinkSelect/#Intent;scheme=https;package=com.android.chrome;end">按此</a>以便在 Chrome 中開啟此連結選擇器。
+            您正在使用 Instagram 內置瀏覽器。如您按下下方連結時未能自動跳轉至相應的應用程式，請<a href="intent://lee011.github.io/igLinkSelect/#Intent;scheme=https;package=com.android.chrome;end">按此</a>以便在 Chrome 中開啟此連結選擇器。
         </div>
     </div>
     <div style="display: flex; flex-direction: row; align-items: flex-start; border: 1px solid gray; border-radius: 5px; padding: 4px;">
@@ -42,6 +41,7 @@
         if (navigator.userAgent.indexOf("Instagram") == -1) {
             document.getElementById("openInBrowser").style.display = "none";
         } else {
+            document.querySelectorAll("a[href^='https://youtu.be/']").forEach((v) => { v.href = v.href.replace("https://youtu.be/", "vnd.youtube://"); })
             document.getElementById("redirLink").href = "intent://lee011.hopto.org/cheering/#Intent;scheme=https;package=com.android.chrome;end";
         }
     </script>
