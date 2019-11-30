@@ -16,7 +16,7 @@
         <i class="material-icons" style="font-size: 48px;">open_in_new</i>
         <div>
             您正在使用 Instagram 內置瀏覽器。按下下方連結時或未能自動跳轉至相應的應用程式。<br />
-            <a href="googlechrome://navigate?url=https://lee011.github.io/igLinkSelect/">按此</a>以便在 Chrome 中開啟此連結選擇器。
+            <a href="intent://lee011.github.io/igLinkSelect/#Intent;scheme=https;package=com.android.chrome;end">按此</a>以便在 Chrome 中開啟此連結選擇器。
         </div>
     </div>
     <div style="display: flex; flex-direction: row; align-items: flex-start; border: 1px solid gray; border-radius: 5px; padding: 4px;">
@@ -28,7 +28,8 @@
     </div>
     <p><b>請選取要前往的連結：</b></p>
     <p>
-        <a href="https://youtu.be/wmXCCJUJ2Qs" target="_blank">STMC 2019-2020 11 月啦啦隊比賽片段</a><hr />
+        <a href="https://youtu.be/wmXCCJUJ2Qs" target="_blank">STMC 2019-2020 11 月啦啦隊比賽片段</a><br />
+        <a href="https://photos.app.goo.gl/QDGtKMFt1SzhU8a2A" target="_blank">STMC 2019-2020 11 月啦啦隊比賽（相片）</a><hr />
         <a href="https://youtu.be/FXwFZyJd6oM" target="_blank">STMC 2018-2019 學生會歌唱比賽</a><hr />
         <a href="https://youtu.be/XQAqEKGnCf4" target="_blank">STMC 2018-2019 水運會池邊啦啦隊決賽片段</a><br />
         <a href="https://photos.app.goo.gl/7svGhTmf83xiCRR66" target="_blank">STMC 2018-2019 水運會池邊啦啦隊決賽（相片）</a><br />
@@ -41,7 +42,7 @@
         if (navigator.userAgent.indexOf("Instagram") == -1) {
             document.getElementById("openInBrowser").style.display = "none";
         } else {
-            document.getElementById("redirLink").href = "googlechrome://navigate?url=https://lee011.hopto.org/cheering/";
+            document.getElementById("redirLink").href = "intent://lee011.hopto.org/cheering/#Intent;scheme=https;package=com.android.chrome;end";
         }
     </script>
 </body>
