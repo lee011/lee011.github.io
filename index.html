@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>新舊車資換算器</title>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta name="description" content="此車資換算器適用於在 2017 年 4 月 9 日生效的新的士收費與此前的舊收費進行換算。" />
+    <meta name="description" content="此車資換算器適用於在 2022 年 7 月 17 日生效的新的士收費與此前的舊收費進行換算。" />
     <script src="https://code.jquery.com/jquery-2.0.3.js"></script>
     <script src="materialize/js/materialize.min.js"></script>
     <link rel="stylesheet" href="materialize/css/materialize.min.css" />
@@ -17,30 +17,30 @@
         $(function () {
             $('.modal').modal();
             $('select').material_select();
-            $(cal).click(function () {
-                var c = calculate(parseInt(typei.value),parseFloat(farei.value));
+            $("#cal").click(function () {
+                var c = calculate(parseInt(document.querySelector("#typei").value),parseFloat(document.querySelector("#farei").value));
                 if (isNaN(c)) {
                     $("#modal1").modal('open');
                     return;
                 }
                 $(newFare).text('HK$ ' + round(c,1));
             });
-            $(add).click(function () {
-                increase(parseInt(typei.value));
+            $("#add").click(function () {
+                increase(parseInt(document.querySelector("#typei").value));
             });
-            $(dec).click(function () {
-                decrease(parseInt(typei.value));
+            $("#dec").click(function () {
+                decrease(parseInt(document.querySelector("#typei").value));
             });
-            $(typei).change(function () {
-                switch (parseInt(typei.value)) {
+            $(document.querySelector("#typei")).change(function () {
+                switch (parseInt(document.querySelector("#typei").value)) {
                     case 1:
-                        farei.value = 22;
+                        document.querySelector("#farei").value = 24;
                         break;
                     case 2:
-                        farei.value = 18.5;
+                        document.querySelector("#farei").value = 20.5;
                         break;
                     case 3:
-                        farei.value = 17;
+                        document.querySelector("#farei").value = 19;
                         break;
                 }
             });
@@ -51,75 +51,75 @@
                 shortDistanceCount = 0;
             switch (type) {
                 case 1:
-                    if (fare > 78) {
-                        longDistanceCount = fare - 78;
+                    if (fare > 83.5) {
+                        longDistanceCount = (fare*10-835)/12;
                         shortDistanceCount = 35; // (9000 - 2000)m / 200m
-                    } else if (fare >= 22) {
-                        shortDistanceCount = (fare * 10 - 220) / 16;
+                    } else if (fare >= 24) {
+                        shortDistanceCount = (fare * 10 - 240) / 17;
                     } else {
                         return NaN;
                     }
                     if (Math.trunc(shortDistanceCount) != shortDistanceCount || Math.trunc(longDistanceCount) != longDistanceCount) { console.log(shortDistanceCount); return NaN; }
-                    return (24 + 1.7 * shortDistanceCount + 1.2 * longDistanceCount);
+                    return (27 + 1.9 * shortDistanceCount + 1.3 * longDistanceCount);
                 case 2:
-                    if (fare > 60.5) {
-                        longDistanceCount = fare - 60.5;
+                    if (fare > 65.5) {
+                        longDistanceCount = (fare * 10 - 655) / 12;
                         shortDistanceCount = 30; // (8000 - 2000)m / 200m
-                    } else if (fare >= 18.5) {
-                        shortDistanceCount = (fare * 10 - 185) / 14;
+                    } else if (fare >= 20.5) {
+                        shortDistanceCount = (fare * 10 - 205) / 15;
                     } else {
                         return NaN;
                     }
                     if (Math.trunc(shortDistanceCount) != shortDistanceCount || Math.trunc(longDistanceCount) != longDistanceCount) { console.log(shortDistanceCount); return NaN; }
-                    return (20.5 + 1.5 * shortDistanceCount + 1.2 * longDistanceCount);
+                    return (23.5 + 1.7 * shortDistanceCount + 1.3 * longDistanceCount);
                 case 3:
-                    if (fare > 143) {
-                        longDistanceCount = (fare * 10 - 1430) / 12;
+                    if (fare > 154) {
+                        longDistanceCount = (fare * 10 - 1540) / 14;
                         shortDistanceCount = 90; // (20000 - 2000)m / 200m
-                    } else if (fare >= 17) {
-                        shortDistanceCount = (fare * 10 - 170) / 14;
+                    } else if (fare >= 19) {
+                        shortDistanceCount = (fare * 10 - 190) / 15;
                     } else {
                         return NaN;
                     }
                     if (Math.trunc(shortDistanceCount) != shortDistanceCount || Math.trunc(longDistanceCount) != longDistanceCount) { console.log(shortDistanceCount); return NaN; }
-                    return (19 + 1.5 * shortDistanceCount + 1.4 * longDistanceCount);
+                    return (22 + 1.7 * shortDistanceCount + 1.5 * longDistanceCount);
             }
         }
         
         function increase(type) {
             var ret;
-            var fare = parseInt(farei.value * 10);
+            var fare = parseInt(document.querySelector("#farei").value * 10);
             switch (type) {
                 case 1:
-                    if (fare >= 780) {
-                        fare += 10;
-                    } else if (fare >= 220) {
-                        fare += 16;
+                    if (fare >= 835) {
+                        fare += 12;
+                    } else if (fare >= 240) {
+                        fare += 17;
                     } else {
-                        fare = 220;
+                        fare = 240;
                     }
                     break;
                 case 2:
-                    if (fare >= 605) {
-                        fare += 10;
-                    } else if (fare >= 185) {
-                        fare += 14;
+                    if (fare >= 655) {
+                        fare += 12;
+                    } else if (fare >= 205) {
+                        fare += 15;
                     } else {
                         fare = 185;
                     }
                     break;
                 case 3:
-                    if (fare >= 1430) {
-                        fare += 12;
-                    } else if (fare >= 170) {
+                    if (fare >= 1540) {
                         fare += 14;
+                    } else if (fare >= 190) {
+                        fare += 15;
                     } else {
-                        fare = 170;
+                        fare = 190;
                     }
                     break;
             }
-            farei.value = fare / 10;
-            var c = calculate(parseInt(typei.value),parseFloat(farei.value));
+            document.querySelector("#farei").value = fare / 10;
+            var c = calculate(parseInt(typei.value),parseFloat(document.querySelector("#farei").value));
             if (isNaN(c)) {
                 $("#modal1").modal('open');
                 return;
@@ -129,38 +129,38 @@
         
         function decrease(type) {
             var ret;
-            var fare = parseInt(farei.value * 10);
+            var fare = parseInt(document.querySelector("#farei").value * 10);
             switch (type) {
                 case 1:
-                    if (fare > 780) {
-                        fare -= 10;
-                    } else if (fare > 220) {
-                        fare -= 16;
+                    if (fare > 835) {
+                        fare -= 12;
+                    } else if (fare > 240) {
+                        fare -= 17;
                     } else {
-                        fare = 220;
+                        fare = 240;
                     }
                     break;
                 case 2:
-                    if (fare > 605) {
-                        fare -= 10;
-                    } else if (fare > 185) {
-                        fare -= 14;
+                    if (fare > 655) {
+                        fare -= 12;
+                    } else if (fare > 205) {
+                        fare -= 15;
                     } else {
-                        fare = 185;
+                        fare = 205;
                     }
                     break;
                 case 3:
-                    if (fare > 1430) {
-                        fare -= 12;
-                    } else if (fare > 170) {
+                    if (fare > 1540) {
                         fare -= 14;
+                    } else if (fare > 190) {
+                        fare -= 15;
                     } else {
-                        fare = 170;
+                        fare = 190;
                     }
                     break;
             }
-            farei.value = fare / 10;
-            var c = calculate(parseInt(typei.value),parseFloat(farei.value));
+            document.querySelector("#farei").value = fare / 10;
+            var c = calculate(parseInt(typei.value),parseFloat(document.querySelector("#farei").value));
             if (isNaN(c)) {
                 $("#modal1").modal('open');
                 return;
@@ -179,7 +179,7 @@
 <body style="margin: 8px">
     <h2>的士新舊車資換算器</h2>
     <p>還在查閱密密麻麻的車資換算表？來試試這個自動化換算器吧。只要選取的士類別，然後輸入舊車資，網頁就會替你換算出新車資。（註：輸入車資不要包含附加費）</p>
-    <p><i>此車資換算器適用於在 2017 年 4 月 9 日生效的新的士收費與此前的舊收費進行換算</i></p>
+    <p><i>此車資換算器適用於在 2022 年 7 月 17 日生效的新的士收費與此前的舊收費進行換算</i></p>
     <div class="row">
         <div class="input-field col s12 m6">
             <select id="typei">
@@ -204,9 +204,9 @@
     <p>免責聲明：此換算器只供參考用途。我們不會就使用此換算器所遭受的任何損失負責。如此換算器的結果與運輸署官方換算表有別，應當以官方換算表上的資料為準。</p>
     <p>
         在此瀏覽官方換算表：
-        <a href="http://www.td.gov.hk/filemanager/en/content_4462/urban_taxi_(2017).pdf" target="_blank">市區的士</a>
-        <a href="http://www.td.gov.hk/filemanager/en/content_4462/nt_taxi_(2017).pdf" target="_blank">新界的士</a>
-        <a href="http://www.td.gov.hk/filemanager/en/content_4462/lantau_taxi_(2017).pdf" target="_blank">大嶼山的士</a>
+        <a href="https://www.td.gov.hk/filemanager/en/content_448/20220717_Fare%20Conversion%20Table_Urban.pdf" target="_blank">市區的士</a>
+        <a href="https://www.td.gov.hk/filemanager/en/content_448/20220717_Fare%20Conversion%20Table_NT.pdf" target="_blank">新界的士</a>
+        <a href="https://www.td.gov.hk/filemanager/en/content_448/20220717_Fare%20Conversion%20Table_Lantau.pdf" target="_blank">大嶼山的士</a>
     </p>
     <div id="modal1" class="modal bottom-sheet">
         <div class="modal-content">
